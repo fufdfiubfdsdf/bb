@@ -38,7 +38,7 @@ async def main():
         db = Database(db_connection)
 
         bots = {}
-        host_url = os.getenv("HOST_URL", "https://solar-galina-clubleness-a9e3e8d6.koyeb.app/")
+        host_url = os.getenv("HOST_URL", "https://solar-galina-clubleness-a9e3e8d6.koyeb.app")
         for bot_id, config in bot_configs.items():
             try:
                 bot = Bot(token=config.token)
