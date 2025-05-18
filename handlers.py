@@ -5,7 +5,7 @@ from urllib.parse import urlencode
 from aiogram import Bot, Dispatcher, types
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from aiohttp import ClientSession
-from .config import BotConfig
+from config import BotConfig
 
 logger = logging.getLogger(__name__)
 
