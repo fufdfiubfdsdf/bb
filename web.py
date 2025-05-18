@@ -1,8 +1,8 @@
 import logging
 import asyncio
 from aiohttp import web
-from .db import Database
-from .handlers import BotHandlers
+from db import Database
+from handlers import BotHandlers
 
 logger = logging.getLogger(__name__)
 
