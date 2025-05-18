@@ -7,10 +7,10 @@ def load_bot_configs():
             "PRIVATE_CHANNEL_ID": -1002640947060,
             "PRICE": 600.00,
             "DESCRIPTION": (
-                "Plan: Standard\n"
-                "Cost: {price} 🇷🇺RUB\n"
-                "Duration: 1 month\n\n"
-                "Access to private channel"
+                "Тариф: Стандарт\n"
+                "Стоимость: {price} 🇷🇺RUB\n"
+                "Срок действия: 1 месяц\n\n"
+                "Доступ к закрытому каналу 18+"
             )
         },
         "bot2": {
@@ -20,10 +20,10 @@ def load_bot_configs():
             "PRIVATE_CHANNEL_ID": -1002609563244,
             "PRICE": 3.00,
             "DESCRIPTION": (
-                "Plan: Standard\n"
-                "Cost: {price} 🇷🇺RUB\n"
-                "Duration: 1 month\n\n"
-                "Subscription to private channel"
+                "Тариф: Стандарт\n"
+                "Стоимость: {price} 🇷🇺RUB\n"
+                "Срок действия: 1 месяц\n\n"
+                "Доступ к закрытому каналу 18+"
             )
         },
         "bot3": {
@@ -33,10 +33,10 @@ def load_bot_configs():
             "PRIVATE_CHANNEL_ID": -1002635743315,
             "PRICE": 580.00,
             "DESCRIPTION": (
-                "Plan: Standard\n"
-                "Cost: {price} 🇷🇺RUB\n"
-                "Duration: 1 month\n\n"
-                "Access to private group"
+                "Тариф: Стандарт\n"
+                "Стоимость: {price} 🇷🇺RUB\n"
+                "Срок действия: 1 месяц\n\n"
+                "Доступ к закрытому каналу 18+"
             )
         },
         "bot4": {
@@ -46,10 +46,10 @@ def load_bot_configs():
             "PRIVATE_CHANNEL_ID": -1002606081226,
             "PRICE": 550.00,
             "DESCRIPTION": (
-                "Plan: Standard\n"
-                "Cost: {price} 🇷🇺RUB\n"
-                "Duration: 1 month\n\n"
-                "Access to 18+ channel"
+                "Тариф: Стандарт\n"
+                "Стоимость: {price} 🇷🇺RUB\n"
+                "Срок действия: 1 месяц\n\n"
+                "Доступ к закрытому каналу 18+"
             )
         },
         "bot5": {
@@ -59,10 +59,10 @@ def load_bot_configs():
             "PRIVATE_CHANNEL_ID": -1002642788126,
             "PRICE": 600.00,
             "DESCRIPTION": (
-                "Plan: Standard\n"
-                "Cost: {price} 🇷🇺RUB\n"
-                "Duration: 1 month\n\n"
-                "Access to 18+ channel"
+                "Тариф: Стандарт\n"
+                "Стоимость: {price} 🇷🇺RUB\n"
+                "Срок действия: 1 месяц\n\n"
+                "Доступ к закрытому каналу 18+"
             )
         },
         "bot6": {
@@ -72,10 +72,10 @@ def load_bot_configs():
             "PRIVATE_CHANNEL_ID": -1002357608478,
             "PRICE": 650.00,
             "DESCRIPTION": (
-                "Plan: Standard\n"
-                "Cost: {price} 🇷🇺RUB\n"
-                "Duration: 1 month\n\n"
-                "Access to 18+ channel"
+                "Тариф: Стандарт\n"
+                "Стоимость: {price} 🇷🇺RUB\n"
+                "Срок действия: 1 месяц\n\n"
+                "Доступ к закрытому каналу 18+"
             )
         },
         "bot7": {
@@ -85,10 +85,10 @@ def load_bot_configs():
             "PRIVATE_CHANNEL_ID": -1002542740564,
             "PRICE": 600.00,
             "DESCRIPTION": (
-                "Plan: Standard\n"
-                "Cost: {price} 🇷🇺RUB\n"
-                "Duration: 1 month\n\n"
-                "Access to 18+ channel"
+                "Тариф: Стандарт\n"
+                "Стоимость: {price} 🇷🇺RUB\n"
+                "Срок действия: 1 месяц\n\n"
+                "Доступ к закрытому каналу 18+"
             )
         },
         "bot8": {
@@ -98,10 +98,10 @@ def load_bot_configs():
             "PRIVATE_CHANNEL_ID": -1002474766276,
             "PRICE": 600.00,
             "DESCRIPTION": (
-                "Plan: Standard\n"
-                "Cost: {price} 🇷🇺RUB\n"
-                "Duration: 1 month\n\n"
-                "Access to 18+ channel"
+                "Тариф: Стандарт\n"
+                "Стоимость: {price} 🇷🇺RUB\n"
+                "Срок действия: 1 месяц\n\n"
+                "Доступ к закрытому каналу 18+"
             )
         },
         "bot9": {
@@ -111,10 +111,10 @@ def load_bot_configs():
             "PRIVATE_CHANNEL_ID": -1002692837479,
             "PRICE": 550.00,
             "DESCRIPTION": (
-                "Plan: Standard\n"
-                "Cost: {price} 🇷🇺RUB\n"
-                "Duration: 1 month\n\n"
-                "Access to 18+ channel"
+                "Тариф: Стандарт\n"
+                "Стоимость: {price} 🇷🇺RUB\n"
+                "Срок действия: 1 месяц\n\n"
+                "Доступ к закрытому каналу 18+"
             )
         },
         "bot10": {
@@ -124,10 +124,10 @@ def load_bot_configs():
             "PRIVATE_CHANNEL_ID": -1002342239719,
             "PRICE": 650.00,
             "DESCRIPTION": (
-                "Plan: Standard\n"
-                "Cost: {price} 🇷🇺RUB\n"
-                "Duration: 1 month\n\n"
-                "Access to private 18+ channel"
+                "Тариф: Стандарт\n"
+                "Стоимость: {price} 🇷🇺RUB\n"
+                "Срок действия: 1 месяц\n\n"
+                "Доступ к закрытому каналу 18+"
             )
         },
         "bot11": {
@@ -137,10 +137,10 @@ def load_bot_configs():
             "PRIVATE_CHANNEL_ID": -1002624869413,
             "PRICE": 660.00,
             "DESCRIPTION": (
-                "Plan: Standard\n"
-                "Cost: {price} 🇷🇺RUB\n"
-                "Duration: 1 month\n\n"
-                "Access to 18+ channel"
+                "Тариф: Стандарт\n"
+                "Стоимость: {price} 🇷🇺RUB\n"
+                "Срок действия: 1 месяц\n\n"
+                "Доступ к закрытому каналу 18+"
             )
         },
         "bot12": {
@@ -150,10 +150,10 @@ def load_bot_configs():
             "PRIVATE Wikipédia:Channel_id": -1002638222463,
             "PRICE": 500.00,
             "DESCRIPTION": (
-                "Plan: Standard\n"
-                "Cost: {price} 🇷🇺RUB\n"
-                "Duration: 1 month\n\n"
-                "Access to 18+ channel"
+                "Тариф: Стандарт\n"
+                "Стоимость: {price} 🇷🇺RUB\n"
+                "Срок действия: 1 месяц\n\n"
+                "Доступ к закрытому каналу 18+"
             )
         },
         "bot13": {
@@ -163,10 +163,10 @@ def load_bot_configs():
             "PRIVATE_CHANNEL_ID": -1002459699589,
             "PRICE": 550.00,
             "DESCRIPTION": (
-                "Plan: Standard\n"
-                "Cost: {price} 🇷🇺RUB\n"
-                "Duration: 1 month\n\n"
-                "Access to 18+ channel"
+                "Тариф: Стандарт\n"
+                "Стоимость: {price} 🇷🇺RUB\n"
+                "Срок действия: 1 месяц\n\n"
+                "Доступ к закрытому каналу 18+"
             )
         },
         "bot14": {
@@ -176,10 +176,10 @@ def load_bot_configs():
             "PRIVATE_CHANNEL_ID": -1002456618280,
             "PRICE": 525.00,
             "DESCRIPTION": (
-                "Plan: Standard\n"
-                "Cost: {price} 🇷🇺RUB\n"
-                "Duration: 1 month\n\n"
-                "Access to 18+ channel"
+                "Тариф: Стандарт\n"
+                "Стоимость: {price} 🇷🇺RUB\n"
+                "Срок действия: 1 месяц\n\n"
+                "Доступ к закрытому каналу 18+"
             )
         },
     }
