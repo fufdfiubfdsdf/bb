@@ -1,0 +1,4 @@
+aiogram==2.25.1
+psycopg2-binary==2.9.9
+aiohttp==3.9.5
+python-dotenv==1.0.1
