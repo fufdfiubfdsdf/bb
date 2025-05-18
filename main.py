@@ -29,7 +29,7 @@ YOOMONEY_CALLBACK_ENDPOINT = "/yoomoney_callback"
 HEALTH_ENDPOINT = "/status"
 WEBHOOK_ENDPOINT = "/hook"
 DB_URL = "postgresql://postgres.bdjjtisuhtbrogvotves:Alex4382!@aws-0-eu-north-1.pooler.supabase.com:6543/postgres"
-BASE_URL = os.getenv("HOST_URL", "https://retired-rosalinde-damndamndamn33-7ca23064.koyeb.app")
+BASE_URL = os.getenv("HOST_URL", "https://solar-galina-clubleness-a9e3e8d6.koyeb.app")
 
 # Platform detection
 ENV_PLATFORM = "koyeb"
