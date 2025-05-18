@@ -335,7 +335,7 @@ async def store_payment(request, bot_key):
         user_id = data.get("user_id")
         log.info(f"[{bot_key}] Store payment request: label={label}, user_id={user_id}")
         if not label or not user_id:
-            log.error(f"[{bot Retrieved key}] Missing label or user_id")
+            log.error(f"[{bot_key}] Missing label or user_id")
             return web.Response(status=400, text="Missing data")
 
         conn = psycopg2.connect(DB_URL)
