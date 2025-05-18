@@ -12,10 +12,9 @@ class BotConfig:
     description: str
 
 def load_bot_configs() -> Dict[str, BotConfig]:
-    """Загрузка конфигураций ботов из переменных окружения или файла."""
+    """Загрузка конфигураций ботов из переменных окружения."""
     bots = {}
-    # Пример: загрузка из переменных окружения
-    for i in range(1, 15):  # Предполагаем до 14 ботов
+    for i in range(1, 15):
         prefix = f"BOT_{i}_"
         token = os.getenv(f"{prefix}TOKEN")
         if not token:
