@@ -4,10 +4,10 @@ import os
 import sys
 from aiogram import Bot, Dispatcher
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
-from .config import load_bot_configs
-from .db import Database
-from .handlers import BotHandlers
-from .web import WebServer
+from config import load_bot_configs
+from db import Database
+from handlers import BotHandlers
+from web import WebServer
 
 logging.basicConfig(
     level=logging.INFO,
@@ -31,17 +31,14 @@ async def set_webhooks(bots: dict, host_url: str):
 
 async def main():
     try:
-        # Загрузка конфигураций
         bot_configs = load_bot_configs()
         logger.info(f"Инициализация {len(bot_configs)} ботов")
 
-        # Инициализация базы данных
         db_connection = os.getenv("DB_CONNECTION", "postgresql://postgres.bdjjtisuhtbrogvotves:Alex4382!@aws-0-eu-north-1.pooler.supabase.com:6543/postgres")
         db = Database(db_connection)
 
-        # Инициализация ботов
         bots = {}
-        host_url = os.getenv("HOST_URL", "https://your-app-name.onrender.com")
+        host_url = os.getenv("HOST_URL", "https://your-app-name.koyeb.app")
         for bot_id, config in bot_configs.items():
             try:
                 bot = Bot(token=config.token)
@@ -55,12 +52,10 @@ async def main():
                 logger.error(f"[{bot_id}] Ошибка инициализации бота: {e}")
                 sys.exit(1)
 
-        # Настройка веб-сервера
         web_server = WebServer(bots, db, host_url)
         await set_webhooks(bots, host_url)
         await web_server.start(port=int(os.getenv("PORT", 8000)))
 
-        # Держим приложение работающим
         while True:
             await asyncio.sleep(3600)
     except Exception as e:
