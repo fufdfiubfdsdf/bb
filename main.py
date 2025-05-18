@@ -121,7 +121,7 @@ for bot_id, dp in dispatchers.items():
 
             # Send response with payment button
             keyboard = InlineKeyboardMarkup()
-            keyboard.add(InlineKeyboardButton(text="Pay Now", url=payment_url))
+            keyboard.add(InlineKeyboardButton(text="Оплатить", url=payment_url))
             welcome_text = config["DESCRIPTION"].format(price=config["PRICE"])
             await bot.send_message(
                 chat_id,
