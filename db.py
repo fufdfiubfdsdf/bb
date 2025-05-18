@@ -13,6 +13,7 @@ class Database:
         try:
             with psycopg2.connect(self.connection_string) as conn:
                 with conn.cursor() as c:
+                    from config import load_bot_configs
                     for bot_id in load_bot_configs():
                         c.execute(f"""
                             CREATE TABLE IF NOT EXISTS payments_{bot_id} (
