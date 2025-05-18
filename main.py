@@ -29,7 +29,7 @@ YOOMONEY_CALLBACK_ENDPOINT = "/yoomoney_callback"
 HEALTH_ENDPOINT = "/status"
 WEBHOOK_ENDPOINT = "/hook"
 DB_URL = "postgresql://postgres.bdjjtisuhtbrogvotves:Alex4382!@aws-0-eu-north-1.pooler.supabase.com:6543/postgres"
-BASE_URL = os.getenv("HOST_URL", "https://solar-galina-clubleness-a9e3e8d6.koyeb.app")
+BASE_URL = os.getenv("HOST_URL", "https://retired-rosalinde-damndamndamn33-7ca23064.koyeb.app")
 
 # Platform detection
 ENV_PLATFORM = "koyeb"
@@ -149,25 +149,41 @@ def check_yoomoney_auth(data, bot_key):
             data.get("label", "")
         ]
         computed_hash = hashlib.sha1("&".join(fields).encode()).hexdigest()
+        log.info(f"[{bot_key}] YooMoney hash computed: {computed_hash}, received: {data.get('sha1_hash', '')}")
         return computed_hash == data.get("sha1_hash", "")
     except Exception as e:
         log.error(f"[{bot_key}] YooMoney verification failed: {e}")
         return False
 
-# Create invite link
+# Create invite link with retry
 async def generate_invite(bot_key, user_id):
     try:
         cfg = BOT_CONFIGS[bot_key]
         bot = bot_instances[bot_key]
-        link = await bot.create_chat_invite_link(
-            chat_id=cfg["PRIVATE_CHANNEL_ID"],
-            member_limit=1,
-            name=f"User_{user_id}_invite"
-        )
-        log.info(f"[{bot_key}] Invite link created for user_id={user_id}: {link.invite_link}")
-        return link.invite_link
+        
+        # Check bot permissions
+        bot_member = await bot.get_chat_member(chat_id=cfg["PRIVATE_CHANNEL_ID"], user_id=(await bot.get_me()).id)
+        if not bot_member.can_invite_users:
+            log.error(f"[{bot_key}] Bot lacks permission to create invite links for chat {cfg['PRIVATE_CHANNEL_ID']}")
+            return None
+
+        # Attempt to create invite link with retry
+        for attempt in range(3):
+            try:
+                link = await bot.create_chat_invite_link(
+                    chat_id=cfg["PRIVATE_CHANNEL_ID"],
+                    member_limit=1,
+                    name=f"User_{user_id}_invite"
+                )
+                log.info(f"[{bot_key}] Invite link created for user_id={user_id}: {link.invite_link}")
+                return link.invite_link
+            except Exception as e:
+                log.warning(f"[{bot_key}] Attempt {attempt + 1} failed to create invite for user_id={user_id}: {e}")
+                await asyncio.sleep(1)  # Wait before retry
+        log.error(f"[{bot_key}] Failed to create invite link after 3 attempts for user_id={user_id}")
+        return None
     except Exception as e:
-        log.error(f"[{bot_key}] Failed to create invite for user_id={user_id}: {e}")
+        log.error(f"[{bot_key}] Error creating invite for user_id={user_id}: {e}\n{traceback.format_exc()}")
         return None
 
 # Find bot by label
@@ -180,7 +196,9 @@ def locate_bot_by_label(label):
             result = cursor.fetchone()
             conn.close()
             if result:
+                log.info(f"[{bot_key}] Found bot for label={label}")
                 return bot_key
+        log.warning(f"Bot not found for label={label}")
         return None
     except Exception as e:
         log.error(f"Error finding bot by label={label}: {e}")
@@ -215,17 +233,18 @@ async def process_yoomoney_callback_generic(request):
                 user_id = result[0]
                 cursor.execute(f"UPDATE payments_{bot_key} SET status = %s WHERE label = %s", ("success", label))
                 conn.commit()
+                log.info(f"[{bot_key}] Payment status updated to success for label={label}, user_id={user_id}")
                 bot = bot_instances[bot_key]
                 await bot.send_message(user_id, "Payment confirmed! Access granted.")
                 invite = await generate_invite(bot_key, user_id)
                 if invite:
                     await bot.send_message(user_id, f"Join the private channel: {invite}")
-                    log.info(f"[{bot_key}] Payment processed, invite sent for label={label}")
+                    log.info(f"[{bot_key}] Payment processed, invite sent for label={label}, user_id={user_id}")
                 else:
-                    await bot.send_message(user_id, "Failed to generate channel link. Contact support.")
+                    await bot.send_message(user_id, "Failed to generate channel link. Contact support at @YourSupportHandle.")
                     log.error(f"[{bot_key}] Invite link creation failed for user_id={user_id}")
             else:
-                log.error(f"[{bot_key}] Label {label} not found")
+                log.error(f"[{bot_key}] Label {label} not found in database")
             conn.close()
 
         return web.Response(status=200)
@@ -257,17 +276,18 @@ async def process_yoomoney_callback(request, bot_key):
                 user_id = result[0]
                 cursor.execute(f"UPDATE payments_{bot_key} SET status = %s WHERE label = %s", ("success", label))
                 conn.commit()
+                log.info(f"[{bot_key}] Payment status updated to success for label={label}, user_id={user_id}")
                 bot = bot_instances[bot_key]
                 await bot.send_message(user_id, "Payment confirmed! Access granted.")
                 invite = await generate_invite(bot_key, user_id)
                 if invite:
                     await bot.send_message(user_id, f"Join the private channel: {invite}")
-                    log.info(f"[{bot_key}] Payment processed, invite sent for label={label}")
+                    log.info(f"[{bot_key}] Payment processed, invite sent for label={label}, user_id={user_id}")
                 else:
-                    await bot.send_message(user_id, "Failed to generate channel link. Contact support.")
+                    await bot.send_message(user_id, "Failed to generate channel link. Contact support at @YourSupportHandle.")
                     log.error(f"[{bot_key}] Invite link creation failed for user_id={user_id}")
             else:
-                log.error(f"[{bot_key}] Label {label} not found")
+                log.error(f"[{bot_key}] Label {label} not found in database")
             conn.close()
 
         return web.Response(status=200)
@@ -319,7 +339,7 @@ async def process_hook(request, bot_key):
         log.info(f"[{bot_key}] Webhook update: {update}")
 
         update_obj = types.Update(**update)
-        asyncio.create_task(dp.process_update(update_obj))
+        await dp.process_update(update_obj)  # Changed to await for better error handling
 
         return web.Response(status=200)
     except Exception as e:
