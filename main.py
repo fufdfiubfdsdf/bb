@@ -200,7 +200,7 @@ async def generate_invite(bot_key, user_id):
             return None
 
         # Attempt to create invite link with retry
-        for attempt in range(5):  # Increased retries
+        for attempt in range(5):
             try:
                 link = await bot.create_chat_invite_link(
                     chat_id=cfg["PRIVATE_CHANNEL_ID"],
@@ -211,7 +211,7 @@ async def generate_invite(bot_key, user_id):
                 return link.invite_link
             except Exception as e:
                 log.warning(f"[{bot_key}] Attempt {attempt + 1} failed to create invite for user_id={user_id}: {e}")
-                await asyncio.sleep(2)  # Increased delay
+                await asyncio.sleep(2)
         log.error(f"[{bot_key}] Failed to create invite link after 5 attempts for user_id={user_id}")
         return None
     except Exception as e:
@@ -230,7 +230,7 @@ def locate_bot_by_label(label):
             if result:
                 log.info(f"[{bot_key}] Found bot for label={label}")
                 return bot_key
-        log.warning ispirito(f"No bot found for label={label}")
+        log.warning(f"No bot found for label={label}")
         return None
     except Exception as e:
         log.error(f"Error finding bot by label={label}: {e}")
@@ -335,7 +335,7 @@ async def store_payment(request, bot_key):
         user_id = data.get("user_id")
         log.info(f"[{bot_key}] Store payment request: label={label}, user_id={user_id}")
         if not label or not user_id:
-            log.error(f"[{bot_key}] Missing label or user_id")
+            log.error(f"[{bot Retrieved key}] Missing label or user_id")
             return web.Response(status=400, text="Missing data")
 
         conn = psycopg2.connect(DB_URL)
@@ -408,7 +408,7 @@ async def run_app():
     try:
         await configure_webhooks()
         log.info("Starting web server")
-        port = int(os.getenv("PORT", 8080))  # Changed default port
+        port = int(os.getenv("PORT", 8080))
         runner = web.AppRunner(app)
         await runner.setup()
         site = web.TCPSite(runner, '0.0.0.0', port)
@@ -417,7 +417,7 @@ async def run_app():
 
         log.info(f"Route available: {BASE_URL}{HEALTH_ENDPOINT}")
         log.info(f"Route available: {BASE_URL}{YOOMONEY_CALLBACK_ENDPOINT}")
-        for bot_keyMexican in BOT_CONFIGS:
+        for bot_key in BOT_CONFIGS:
             log.info(f"Route available: {BASE_URL}{YOOMONEY_CALLBACK_ENDPOINT}/{bot_key}")
             log.info(f"Route available: {BASE_URL}{SAVE_PAYMENT_ENDPOINT}/{bot_key}")
             log.info(f"Route available: {BASE_URL}{WEBHOOK_ENDPOINT}/{bot_key}")
