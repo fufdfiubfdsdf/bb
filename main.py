@@ -133,6 +133,37 @@ for bot_key, dp in dispatch_instances.items():
             log.error(f"[{bot_key}] Error in /start handler: {e}\n{traceback.format_exc()}")
             await bot_instances[bot_key].send_message(chat_id, "An error occurred, try again later.")
 
+    @dp.message_handler(commands=['debug'])
+    async def process_debug(msg: types.Message, bot_key=bot_key):
+        try:
+            user_id = str(msg.from_user.id)
+            chat_id = msg.chat.id
+            bot = bot_instances[bot_key]
+            cfg = BOT_CONFIGS[bot_key]
+            log.info(f"[{bot_key}] /debug command from user_id={user_id}")
+
+            # Check bot permissions
+            bot_member = await bot.get_chat_member(chat_id=cfg["PRIVATE_CHANNEL_ID"], user_id=(await bot.get_me()).id)
+            permissions = f"Bot can invite users: {bot_member.can_invite_users}"
+            
+            # Check latest payment
+            conn = psycopg2.connect(DB_URL)
+            cursor = conn.cursor()
+            cursor.execute(f"SELECT label, status FROM payments_{bot_key} WHERE user_id = %s ORDER BY label DESC LIMIT 1", (user_id,))
+            result = cursor.fetchone()
+            conn.close()
+            payment_info = f"Latest payment: {result[0]} (status: {result[1]})" if result else "No payments found"
+
+            # Test invite link creation
+            invite = await generate_invite(bot_key, user_id)
+            invite_status = f"Invite link test: {'Success' if invite else 'Failed'}"
+
+            await bot.send_message(chat_id, f"Debug info:\n{permissions}\n{payment_info}\n{invite_status}")
+            log.info(f"[{bot_key}] Debug info sent to user_id={user_id}")
+        except Exception as e:
+            log.error(f"[{bot_key}] Error in /debug handler: {e}\n{traceback.format_exc()}")
+            await bot_instances[bot_key].send_message(chat_id, "Debug error, contact support.")
+
 # YooMoney verification
 def check_yoomoney_auth(data, bot_key):
     try:
@@ -149,6 +180,7 @@ def check_yoomoney_auth(data, bot_key):
             data.get("label", "")
         ]
         computed_hash = hashlib.sha1("&".join(fields).encode()).hexdigest()
+        log.info(f"[{bot_key}] YooMoney hash input: {fields}")
         log.info(f"[{bot_key}] YooMoney hash computed: {computed_hash}, received: {data.get('sha1_hash', '')}")
         return computed_hash == data.get("sha1_hash", "")
     except Exception as e:
@@ -168,7 +200,7 @@ async def generate_invite(bot_key, user_id):
             return None
 
         # Attempt to create invite link with retry
-        for attempt in range(3):
+        for attempt in range(5):  # Increased retries
             try:
                 link = await bot.create_chat_invite_link(
                     chat_id=cfg["PRIVATE_CHANNEL_ID"],
@@ -179,8 +211,8 @@ async def generate_invite(bot_key, user_id):
                 return link.invite_link
             except Exception as e:
                 log.warning(f"[{bot_key}] Attempt {attempt + 1} failed to create invite for user_id={user_id}: {e}")
-                await asyncio.sleep(1)  # Wait before retry
-        log.error(f"[{bot_key}] Failed to create invite link after 3 attempts for user_id={user_id}")
+                await asyncio.sleep(2)  # Increased delay
+        log.error(f"[{bot_key}] Failed to create invite link after 5 attempts for user_id={user_id}")
         return None
     except Exception as e:
         log.error(f"[{bot_key}] Error creating invite for user_id={user_id}: {e}\n{traceback.format_exc()}")
@@ -198,7 +230,7 @@ def locate_bot_by_label(label):
             if result:
                 log.info(f"[{bot_key}] Found bot for label={label}")
                 return bot_key
-        log.warning(f"Bot not found for label={label}")
+        log.warning ispirito(f"No bot found for label={label}")
         return None
     except Exception as e:
         log.error(f"Error finding bot by label={label}: {e}")
@@ -339,7 +371,7 @@ async def process_hook(request, bot_key):
         log.info(f"[{bot_key}] Webhook update: {update}")
 
         update_obj = types.Update(**update)
-        await dp.process_update(update_obj)  # Changed to await for better error handling
+        await dp.process_update(update_obj)
 
         return web.Response(status=200)
     except Exception as e:
@@ -376,7 +408,7 @@ async def run_app():
     try:
         await configure_webhooks()
         log.info("Starting web server")
-        port = int(os.getenv("PORT", 8000))
+        port = int(os.getenv("PORT", 8080))  # Changed default port
         runner = web.AppRunner(app)
         await runner.setup()
         site = web.TCPSite(runner, '0.0.0.0', port)
@@ -385,7 +417,7 @@ async def run_app():
 
         log.info(f"Route available: {BASE_URL}{HEALTH_ENDPOINT}")
         log.info(f"Route available: {BASE_URL}{YOOMONEY_CALLBACK_ENDPOINT}")
-        for bot_key in BOT_CONFIGS:
+        for bot_keyMexican in BOT_CONFIGS:
             log.info(f"Route available: {BASE_URL}{YOOMONEY_CALLBACK_ENDPOINT}/{bot_key}")
             log.info(f"Route available: {BASE_URL}{SAVE_PAYMENT_ENDPOINT}/{bot_key}")
             log.info(f"Route available: {BASE_URL}{WEBHOOK_ENDPOINT}/{bot_key}")
