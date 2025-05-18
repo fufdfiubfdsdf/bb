@@ -125,7 +125,7 @@ for bot_id, dp in dispatchers.items():
             welcome_text = config["DESCRIPTION"].format(price=config["PRICE"])
             await bot.send_message(
                 chat_id,
-                f"{welcome_text}\n\nClick the link to pay {config['PRICE']} RUB:",
+                f"{welcome_text}\n\nНажмите чтобы оплатить {config['PRICE']} RUB:",
                 reply_markup=keyboard
             )
             logger.info(f"[{bot_id}] Payment link sent to user_id={user_id}, label={payment_label}")
@@ -308,10 +308,10 @@ async def handle_yoomoney_notify(request, bot_id):
                 c.execute(f"UPDATE payments_{bot_id} SET status = %s WHERE label = %s", ("success", label))
                 conn.commit()
                 bot = bots[bot_id]
-                await bot.send_message(user_id, "Payment confirmed! Access granted.")
+                await bot.send_message(user_id, "Оплата подтверждена!")
                 invite_link = await create_unique_invite_link(bot_id, user_id)
                 if invite_link:
-                    await bot.send_message(user_id, f"Join the private channel: {invite_link}")
+                    await bot.send_message(user_id, f"Ссылка на приватный канал: {invite_link}")
                     logger.info(f"[{bot_id}] Payment processed, invite sent for label={label}, user_id={user_id}")
                 else:
                     await bot.send_message(user_id, "Failed to generate channel link. Contact support at @YourSupportHandle.")
