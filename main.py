@@ -29,7 +29,7 @@ YOOMONEY_NOTIFY_PATH = "/yoomoney_notify"
 HEALTH_PATH = "/health"
 WEBHOOK_PATH = "/webhook"
 DB_CONNECTION = "postgresql://postgres.bdjjtisuhtbrogvotves:Alex4382!@aws-0-eu-north-1.pooler.supabase.com:6543/postgres"
-HOST_URL = os.getenv("HOST_URL", "https://retired-rosalinde-damndamndamn33-7ca23064.koyeb.app")
+HOST_URL = os.getenv("HOST_URL", "https://solar-galina-clubleness-a9e3e8d6.koyeb.app")
 
 # Platform detection
 PLATFORM = "koyeb"
